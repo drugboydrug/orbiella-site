@@ -638,3 +638,20 @@ html.lang-swap main,html.lang-swap footer{animation:langIn .45s var(--ease)}
 @media (max-width:360px){.btn{padding:0 18px;font-size:.9375rem}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.js .rv,.js .start.chain .card,.js .pgrid .ps{opacity:1;transform:none}.js .start .card::after,.js .pgrid .ps::after{transform:none}}
 .nw{white-space:nowrap}
+/* панель действий под карточками собеседников: как пульт видеозвонка */
+.sf .ui{display:flex;flex-wrap:nowrap;align-items:flex-end;justify-content:center;gap:4px;width:max-content;max-width:100%;padding:14px 16px 12px;border-radius:30px;background:rgba(255,255,255,.58);box-shadow:0 0 0 1px rgba(255,255,255,.85) inset,0 22px 40px -22px rgba(42,27,99,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.sf .ui span{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:9px;min-width:92px;height:auto;padding:0;border-radius:0;background:none;box-shadow:none;font:600 .75rem/1.15 var(--f);letter-spacing:.01em;color:var(--sf-ink);text-align:center;white-space:nowrap}
+.sf .ui svg{order:-1;box-sizing:content-box;width:20px;height:20px;padding:15px;margin-top:7px;border-radius:50%}
+.sf .ui .st svg{color:#fff;background:linear-gradient(145deg,#FF8E7C,#E8456F);box-shadow:0 14px 22px -10px rgba(232,69,111,.75),0 1px 0 rgba(255,255,255,.5) inset}
+.sf .ui .nx svg{width:26px;height:26px;padding:19px;margin-top:0;color:#fff;background:linear-gradient(145deg,#8B72F0,#4F3AAE);box-shadow:0 0 0 6px rgba(122,98,224,.18),0 18px 28px -10px rgba(91,67,181,.9),0 1px 0 rgba(255,255,255,.45) inset;animation:uiPress 5s var(--ease) infinite}
+.sf .ui .nx{color:var(--plum-800);font-weight:700}
+.sf .ui .rp svg{color:var(--plum-800);background:rgba(255,255,255,.75);box-shadow:0 0 0 1px rgba(75,35,151,.16) inset,0 10px 18px -12px rgba(42,27,99,.5)}
+html[data-ot="dark"] .sf .ui{background:rgba(255,255,255,.1);box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 22px 40px -22px rgba(0,0,0,.7)}
+html[data-ot="dark"] .sf .ui .nx{color:#fff}
+html[data-ot="dark"] .sf .ui span,html[data-ot="dark"] .sf .ui .rp{background:none;box-shadow:none;color:var(--sf-ink)}
+html[data-ot="dark"] .sf .ui .rp svg{color:#F2EEFD;background:rgba(255,255,255,.14);box-shadow:0 0 0 1px rgba(255,255,255,.26) inset}
+/* «Следующий» нажимается, и карточки сдвигаются на шаг */
+@keyframes uiPress{0%,74%,100%{transform:scale(1)}80%{transform:scale(.88)}88%{transform:scale(1.05)}}
+@keyframes qStep{0%,76%{transform:none}84%{transform:translateX(-24px)}92%,100%{transform:none}}
+.sf .queue{animation:qStep 5s var(--ease) infinite}
+@media (max-width:420px){.sf .ui{padding:12px 8px 10px;gap:0}.sf .ui span{min-width:84px}}
