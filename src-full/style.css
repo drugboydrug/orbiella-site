@@ -640,18 +640,26 @@ html.lang-swap main,html.lang-swap footer{animation:langIn .45s var(--ease)}
 .nw{white-space:nowrap}
 /* панель действий под карточками собеседников: как пульт видеозвонка */
 .sf .ui{display:flex;flex-wrap:nowrap;align-items:flex-end;justify-content:center;gap:4px;width:max-content;max-width:100%;padding:14px 16px 12px;border-radius:30px;background:rgba(255,255,255,.58);box-shadow:0 0 0 1px rgba(255,255,255,.85) inset,0 22px 40px -22px rgba(42,27,99,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
-.sf .ui span{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:9px;min-width:92px;height:auto;padding:0;border-radius:0;background:none;box-shadow:none;font:600 .75rem/1.15 var(--f);letter-spacing:.01em;color:var(--sf-ink);text-align:center;white-space:nowrap}
-.sf .ui svg{order:-1;box-sizing:content-box;width:20px;height:20px;padding:15px;margin-top:7px;border-radius:50%}
+.sf .ui button{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:9px;min-width:92px;height:auto;padding:0;margin:0;border:0;border-radius:14px;background:none;box-shadow:none;font:600 .75rem/1.15 var(--f);letter-spacing:.01em;color:var(--sf-ink);text-align:center;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.sf .ui button:focus-visible{outline:3px solid var(--violet-500);outline-offset:4px}
+.sf .ui svg{order:-1;box-sizing:content-box;width:20px;height:20px;padding:15px;margin-top:7px;border-radius:50%;transition:scale .18s var(--ease),box-shadow .25s}
+.sf .ui button:active svg{scale:.88}
+@media (hover:hover){.sf .ui button:hover svg{scale:1.07}}
 .sf .ui .st svg{color:#fff;background:linear-gradient(145deg,#FF8E7C,#E8456F);box-shadow:0 14px 22px -10px rgba(232,69,111,.75),0 1px 0 rgba(255,255,255,.5) inset}
-.sf .ui .nx svg{width:26px;height:26px;padding:19px;margin-top:0;color:#fff;background:linear-gradient(145deg,#8B72F0,#4F3AAE);box-shadow:0 0 0 6px rgba(122,98,224,.18),0 18px 28px -10px rgba(91,67,181,.9),0 1px 0 rgba(255,255,255,.45) inset;animation:uiPress 5s var(--ease) infinite}
+.sf .ui .rp svg{color:#7A4A00;background:linear-gradient(145deg,#FFE3B5,#F6B66B);box-shadow:0 14px 22px -10px rgba(214,140,40,.7),0 1px 0 rgba(255,255,255,.6) inset}
+.sf .ui .nx svg{width:26px;height:26px;padding:19px;margin-top:0;color:#fff;background:linear-gradient(145deg,#8B72F0,#4F3AAE);box-shadow:0 0 0 6px rgba(122,98,224,.18),0 18px 28px -10px rgba(91,67,181,.9),0 1px 0 rgba(255,255,255,.45) inset}
+.sf:not(.used) .ui .nx svg{animation:uiGlow 2.8s ease-in-out infinite}
 .sf .ui .nx{color:var(--plum-800);font-weight:700}
-.sf .ui .rp svg{color:var(--plum-800);background:rgba(255,255,255,.75);box-shadow:0 0 0 1px rgba(75,35,151,.16) inset,0 10px 18px -12px rgba(42,27,99,.5)}
 html[data-ot="dark"] .sf .ui{background:rgba(255,255,255,.1);box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 22px 40px -22px rgba(0,0,0,.7)}
+html[data-ot="dark"] .sf .ui button{color:var(--sf-ink)}
 html[data-ot="dark"] .sf .ui .nx{color:#fff}
-html[data-ot="dark"] .sf .ui span,html[data-ot="dark"] .sf .ui .rp{background:none;box-shadow:none;color:var(--sf-ink)}
-html[data-ot="dark"] .sf .ui .rp svg{color:#F2EEFD;background:rgba(255,255,255,.14);box-shadow:0 0 0 1px rgba(255,255,255,.26) inset}
-/* «Следующий» нажимается, и карточки сдвигаются на шаг */
-@keyframes uiPress{0%,74%,100%{transform:scale(1)}80%{transform:scale(.88)}88%{transform:scale(1.05)}}
-@keyframes qStep{0%,76%{transform:none}84%{transform:translateX(-24px)}92%,100%{transform:none}}
-.sf .queue{animation:qStep 5s var(--ease) infinite}
-@media (max-width:420px){.sf .ui{padding:12px 8px 10px;gap:0}.sf .ui span{min-width:84px}}
+@keyframes uiGlow{0%,100%{box-shadow:0 0 0 6px rgba(122,98,224,.18),0 18px 28px -10px rgba(91,67,181,.9),0 1px 0 rgba(255,255,255,.45) inset}50%{box-shadow:0 0 0 13px rgba(122,98,224,.07),0 18px 28px -10px rgba(91,67,181,.9),0 1px 0 rgba(255,255,255,.45) inset}}
+/* карточки собеседников: цвет задаёт скрипт, бейджи показывают действие */
+.sf .queue i:nth-child(n){background:var(--bg,linear-gradient(165deg,#CDBFF7,#8D78E6))}
+.sf .queue i:nth-child(1),.sf .queue i:nth-child(3){opacity:.85}
+.sf .queue i.flagged{filter:saturate(.45) brightness(.94)}
+.sf .queue i .fx{position:absolute;left:50%;top:50%;z-index:3;display:grid;place-items:center;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;box-shadow:0 12px 22px -8px rgba(20,5,60,.6),0 0 0 3px rgba(255,255,255,.9)}
+.sf .queue i .fx svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.sf .queue i .fx-end{color:#fff;background:linear-gradient(145deg,#FF8E7C,#E8456F)}
+.sf .queue i .fx-rep{color:#7A4A00;background:linear-gradient(145deg,#FFE3B5,#F6B66B)}
+@media (max-width:420px){.sf .ui{padding:12px 8px 10px;gap:0}.sf .ui button{min-width:84px}}

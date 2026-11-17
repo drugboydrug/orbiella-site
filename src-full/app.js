@@ -428,3 +428,51 @@ var CONFIG = {
     form.addEventListener("focusin", function () { once("form_start"); });
   })();
 })();
+/* Панель «Завершить / Пожаловаться / Следующий» оживляет карточки собеседников над ней */
+(function () {
+  var sf = document.querySelector(".sf"); if (!sf) return;
+  var q = sf.querySelector(".queue"), ui = sf.querySelector(".ui"); if (!q || !ui) return;
+  var cards = q.querySelectorAll("i"); if (cards.length < 3) return;
+  var BG = ["linear-gradient(165deg,#CDBFF7,#8D78E6)", "linear-gradient(165deg,#8EE3DE,#3FA7B5)", "linear-gradient(165deg,#FFD6C2,#F5A8C8)", "linear-gradient(165deg,#BFD9FF,#6F8FE8)", "linear-gradient(165deg,#FFE3B5,#F0A07C)"];
+  var cur = 1, busy = false, EASE = "cubic-bezier(.16,1,.3,1)";
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var paint = function () { for (var k = 0; k < 3; k++) cards[k].style.setProperty("--bg", BG[(cur + k - 1 + BG.length) % BG.length]); };
+  var step = function () { cur = (cur + 1) % BG.length; paint(); };
+  var play = function (el, kf, o) { if (!el.animate) return Promise.resolve(); var a = el.animate(kf, o); return a.finished || new Promise(function (r) { a.onfinish = r; }); };
+  var badge = function (card, kind) {
+    var b = document.createElement("b"); b.className = "fx fx-" + kind;
+    b.innerHTML = '<svg aria-hidden="true"><use href="#i-' + (kind === "end" ? "x" : "flag") + '"/></svg>';
+    card.appendChild(b); return b;
+  };
+  var finish = function (card, b) {
+    if (b && b.parentNode) b.parentNode.removeChild(b);
+    card.classList.remove("flagged");
+    [].forEach.call(card.getAnimations ? card.getAnimations() : [], function (a) { a.cancel(); });
+    busy = false;
+  };
+  var run = function (kind) {
+    if (busy) return; busy = true; sf.classList.add("used");
+    var c = cards[1];
+    if (reduce || !c.animate) { step(); busy = false; return; }
+    if (kind === "next") {
+      play(q, [{ opacity: 1, translate: "0 0" }, { opacity: 0, translate: "-46px 0" }], { duration: 220, easing: "ease-in" })
+        .then(function () { step(); return play(q, [{ opacity: 0, translate: "46px 0" }, { opacity: 1, translate: "0 0" }], { duration: 420, easing: EASE }); })
+        .then(function () { finish(c); });
+    } else if (kind === "end") {
+      var b = badge(c, "end");
+      play(b, [{ scale: .2, opacity: 0 }, { scale: 1.18, opacity: 1, offset: .6 }, { scale: 1, opacity: 1 }], { duration: 280, easing: "ease-out", fill: "forwards" })
+        .then(function () { return play(c, [{ scale: 1, opacity: 1, translate: "0 0" }, { scale: .8, opacity: 0, translate: "0 12px" }], { duration: 340, delay: 160, easing: "ease-in", fill: "forwards" }); })
+        .then(function () { step(); c.getAnimations().forEach(function (a) { a.cancel(); }); if (b.parentNode) b.parentNode.removeChild(b); return play(c, [{ scale: .7, opacity: 0 }, { scale: 1, opacity: 1 }], { duration: 420, easing: EASE }); })
+        .then(function () { finish(c); });
+    } else {
+      var f = badge(c, "rep"); c.classList.add("flagged");
+      play(f, [{ scale: .2, opacity: 0 }, { scale: 1.18, opacity: 1, offset: .6 }, { scale: 1, opacity: 1 }], { duration: 260, easing: "ease-out", fill: "forwards" });
+      play(c, [{ translate: "0 0" }, { translate: "-7px 0" }, { translate: "7px 0" }, { translate: "-5px 0" }, { translate: "5px 0" }, { translate: "0 0" }], { duration: 460, easing: "ease-in-out" })
+        .then(function () { return play(c, [{ translate: "0 0", opacity: 1 }, { translate: "0 16px", opacity: 0 }], { duration: 320, delay: 140, easing: "ease-in", fill: "forwards" }); })
+        .then(function () { step(); c.getAnimations().forEach(function (a) { a.cancel(); }); c.classList.remove("flagged"); if (f.parentNode) f.parentNode.removeChild(f); return play(c, [{ translate: "0 -14px", opacity: 0 }, { translate: "0 0", opacity: 1 }], { duration: 420, easing: EASE }); })
+        .then(function () { finish(c); });
+    }
+  };
+  ui.addEventListener("click", function (e) { var b = e.target.closest("button[data-act]"); if (b && ui.contains(b)) run(b.getAttribute("data-act")); });
+  paint();
+})();
