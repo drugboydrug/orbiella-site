@@ -684,6 +684,15 @@ html[data-ot="dark"] .sf .ui .nx{color:#fff}
 .sf .queue i .fx-end{color:#fff;background:linear-gradient(145deg,#FF8E7C,#E8456F)}
 .sf .queue i .fx-rep{color:#7A4A00;background:linear-gradient(145deg,#FFE3B5,#F6B66B)}
 @media (max-width:420px){.sf .ui{padding:12px 8px 10px;gap:0}.sf .ui button{min-width:84px}}
+
+/* примечание про подарки */
+.gift{align-items:center;gap:20px;padding:20px 28px;font-size:1rem;line-height:1.55}
+.gift p{margin:0}
+.gift .chip{position:relative;flex:none;width:58px;height:58px;border-radius:19px;background:linear-gradient(150deg,#FFE9CF 0%,#FFC38F 52%,#F59AB8 100%);color:#fff;overflow:hidden;box-shadow:0 14px 24px -12px rgba(240,120,90,.75),0 0 0 1px rgba(255,255,255,.55) inset,0 1px 0 rgba(255,255,255,.8) inset}
+.gift .chip svg{width:34px;height:34px;fill:none;stroke:none;filter:drop-shadow(0 3px 4px rgba(176,70,40,.35))}
+.gift .chip::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.65) 50%,transparent 65%);transform:translateX(-120%);animation:giftShine 6s var(--ease) 1.5s infinite}
+@keyframes giftShine{0%,70%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@media (max-width:640px){.gift{gap:14px;padding:16px 18px}.gift .chip{width:50px;height:50px;border-radius:16px}.gift .chip svg{width:30px;height:30px}}
 </style>
 </head>
 <body>
@@ -867,7 +876,7 @@ html[data-ot="dark"] .sf .ui .nx{color:#fff}
       <div class="card t t-card"><span class="chip ct"><svg aria-hidden="true"><use href="#i-card"/></svg></span><b>Карта или криптовалюта</b><span class="d">способы получения выплат</span></div>
       <div class="card t t-fee"><span class="chip ct"><svg aria-hidden="true"><use href="#i-shield"/></svg></span><b>Без комиссии</b><span class="d">со стороны ORBIELLA</span></div>
     </div>
-    <div class="gift rv"><span class="chip cc"><svg aria-hidden="true"><use href="#i-gift"/></svg></span><p><b>Подарки от собеседников</b> возможны дополнительно, но не гарантированы и не входят в расчёт основного дохода.</p></div>
+    <div class="gift rv"><span class="chip cc"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="14" width="20" height="13" rx="3" fill="#fff"/><rect x="4" y="10" width="24" height="6.5" rx="2.6" fill="#fff"/><rect x="14.4" y="10" width="3.2" height="17" fill="#F2754F"/><path d="M16 10C14 4.6 8.2 4.6 8.9 8.1 9.4 10.4 13.6 10.2 16 10Z" fill="#F2754F"/><path d="M16 10C18 4.6 23.8 4.6 23.1 8.1 22.6 10.4 18.4 10.2 16 10Z" fill="#F2754F"/><circle cx="16" cy="9.6" r="1.8" fill="#D95A36"/></svg></span><p><b>Подарки от собеседников</b> возможны дополнительно, но не гарантированы и не входят в расчёт основного дохода.</p></div>
     <div class="cta-row sec-cta rv">
       <a class="btn btn-ghost" data-tg href="#apply"><svg aria-hidden="true"><use href="#i-send"/></svg>Задать вопрос в Telegram</a>
     </div>
